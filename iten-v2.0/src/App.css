@@ -7,10 +7,7 @@ body{
 }
 
 .App-body{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
 }
 
 .user-info-board{
@@ -29,4 +26,56 @@ body{
 
 .user-info-board-text{
   font-size:36px;
+}
+
+.count-amount{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+
+}
+
+.count-or-amount{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 7px;
+}
+
+.count-hint{
+  margin: 2px;
+  font-size: 20px;
+}
+
+.count-number{
+  font-weight: lighter;
+  font-size: 96px;
+  color:#ff6f00;
+  margin:0;
+}
+
+.line{
+  height:120px;
+  width: 1px;
+  background-color: #9F9F9F;
+}
+
+.train-button{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 14px;
+}
+
+.app-content{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

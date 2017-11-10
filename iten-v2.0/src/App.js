@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 //外部函数变量类型
@@ -19,6 +20,7 @@ import SigininDialog from "./Components/SigninDialog";
 import UserInfoBoard from "./Components/UserInfoBoard";
 import VideoCard from "./Components/VideoCard";
 import DeployCard from "./Components/DeployCard";
+import TrainCard from "./Components/TrainCard";
 class App extends Component {
 
   constructor(props){
@@ -59,6 +61,23 @@ class App extends Component {
       this.getUserInfo();
   };
 
+  handleLogout = ()=>{
+      clearInterval(this.refresh)
+      setCookie('Access-Token','');
+      this.setState({hasUserInfo:false,
+          userInfo:{
+              username:'',
+              privilege:0,
+              phone_number:'',
+              timer:0
+          },
+          hasMachine:false,
+          machineId:'',
+          machineState:'',
+          trainName:'',
+          trainAmount:'',
+          trainCount:''});
+  }
   getUserInfo = async() => {
       let userInfo = await fetch.getUserInfo();
       console.log(userInfo);
@@ -70,7 +89,7 @@ class App extends Component {
               timer:userInfo.timer
           }
       });
-      setInterval(this.refreshTask, 1000);
+      this.refresh = setInterval(this.refreshTask, 1000);
   };
 
   refreshTask = async ()=>{
@@ -97,8 +116,12 @@ class App extends Component {
             <div className="App-body">
                 <AppBar
                 title = {"ITEN智能网球机"}
-                iconElementLeft = {<IconButton><NavigationClose /></IconButton>}
+                iconElementLeft = {<IconButton onClick={()=>{window.close()}}><NavigationClose /></IconButton>}
+                iconElementRight={<IconButton onClick={this.handleLogout}><ActionFlightTakeoff /></IconButton>}
+                style = {{position:'fixed',top:0}}
                 />
+
+                <div className="app-content">
                 <SigininDialog
                     open = {!this.state.hasUserInfo}
                     handleToken = {this.handleToken}
@@ -111,6 +134,14 @@ class App extends Component {
                     <VideoCard/>: <div></div>}
                 {this.state.hasUserInfo && !this.state.hasMachine?
                     <DeployCard/>: <div></div>}
+                {this.state.hasUserInfo && this.state.hasMachine?
+                    <TrainCard
+                        trainName={this.state.trainName}
+                        trainAmount={this.state.trainAmount}
+                        trainCount={this.state.trainCount}
+                        machineState={this.state.machineState}
+                    />: <div></div>}
+                </div>
             </div>
         </MuiThemeProvider>
     );

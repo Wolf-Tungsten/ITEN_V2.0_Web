@@ -57,12 +57,16 @@ export async function deploy(machine_id, train_id, train_amount){
     return await postRequests('/hardware/deploy',data)
 }
 
-async function pause(){
-
+export async function pause(){
+    await postRequests('/hardware/pause')
 }
 
-async function resume(){
+export async function resume(){
+    await postRequests('/hardware/resume')
+}
 
+export async function stop(){
+    await postRequests('/hardware/stop')
 }
 
 async function command(){
