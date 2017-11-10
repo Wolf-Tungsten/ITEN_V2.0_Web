@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+}
+
+body{
+  background-color: #333333;
+}
+
+.App-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-info-board{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 32px;
+}
+
+.user-info-board p{
+  color: #F4F4F4;
+  margin: 0px;
+  padding-top: 7px;
+}
+
+.user-info-board-text{
+  font-size:36px;
+}
