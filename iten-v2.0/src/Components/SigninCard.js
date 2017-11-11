@@ -33,7 +33,7 @@ export default class SigininCard extends React.Component{
         }
     }
 
-    componentDidMount(){
+    initGeetest = (ele)=>{
         const that = this;
         geetest().then((data)=>{
             console.log(data);
@@ -48,10 +48,10 @@ export default class SigininCard extends React.Component{
                 challenge: data.challenge,
                 offline: !data.success,
                 new_captcha: data.new_captcha,
-                width: '100%'
+                width: '95%'
             }, function (captchaObj) {
                 // 这里可以调用验证实例 captchaObj 的实例方法
-                captchaObj.appendTo('#geetest-signin');
+                captchaObj.appendTo(ele);
                 captchaObj.onSuccess(()=>{
                     let result = captchaObj.getValidate();
                     that.setState({
@@ -118,7 +118,7 @@ export default class SigininCard extends React.Component{
                             type="password"
                             onChange={(e,v)=>{this.setState({password:v})}}
                         />
-                        <div style={{width:'80px'}} id="geetest-signin"></div>
+                        <div ref={this.initGeetest} style={{width:'80px'}} id="geetest-signin"></div>
                     </div>
                 </CardText>
 

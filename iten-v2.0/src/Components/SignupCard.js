@@ -29,6 +29,7 @@ export default class SiginupCard extends React.Component{
             geetest_challenge: '',
             geetest_validate: '',
             geetest_seccode: '',
+            passwordCheck:'',
             enable:false
         }
     }
@@ -94,12 +95,13 @@ export default class SiginupCard extends React.Component{
 
     handleClose = ()=>{
         this.props.close();
+        window.location.reload(true);
     }
 
 
     render(){
         const actions = [
-            <FlatButton label="注册" primary={true} onClick={this.handleSignup} disabled={!this.state.enable}/>,
+            <FlatButton label="注册" primary={true} onClick={this.handleSignup} disabled={!(this.state.enable&&this.state.passwordCheck===this.state.password)}/>,
             <FlatButton label="取消" onClick={this.props.close}/>
         ]
         return(
@@ -122,6 +124,17 @@ export default class SiginupCard extends React.Component{
                     floatingLabelText="密码"
                     floatingLabelFixed={true}
                     onChange={(e,v)=>{this.setState({password:v})}}
+                    type="password"
+                />
+                    <br/>
+                <TextField
+                    fullWidth={true}
+                    hintText="重新输入密码"
+                    floatingLabelText="确认密码"
+                    floatingLabelFixed={true}
+                    onChange={(e,v)=>{this.setState({passwordCheck:v})}}
+                    type="password"
+                    errorText={this.state.passwordCheck===this.state.password?'':'两次密码输入不一致'}
                 />
                 <br/>
                 {!this.state.enable?

@@ -21,7 +21,7 @@ export default class VideoCard extends React.Component{
     }
 
     refresh = async ()=>{
-        window.location.reload();
+        window.location.reload(true);
     }
 
     //实现循环播放
