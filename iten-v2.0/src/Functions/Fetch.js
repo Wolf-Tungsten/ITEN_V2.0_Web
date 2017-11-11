@@ -18,12 +18,17 @@ async function postRequests(url, data){
 
 }
 
-export async function signin(username,password){
+
+
+export async function signin(username,password,geetest_challenge,geetest_validate,geetest_seccode){
     let data = {
         username:username,
-        password:password
+        password:password,
+        geetest_challenge: geetest_challenge,
+        geetest_validate: geetest_validate,
+        geetest_seccode: geetest_seccode
     };
-    return await postRequests('/auth/signin',data);
+    return await postRequests('/auth/websignin',data);
 }
 
 export async function getUserInfo(){
@@ -67,6 +72,26 @@ export async function resume(){
 
 export async function stop(){
     await postRequests('/hardware/stop')
+}
+
+export async function geetest(){
+    return await getRequests('/auth/geetest',{user_name:'iten'})
+}
+
+export async function sms(phone_number, username, geetest_challenge, geetest_validate, geetest_seccode){
+    return await postRequests('/auth/sms',{
+        username:username,
+        phone_number:phone_number,
+        geetest_challenge: geetest_challenge,
+        geetest_validate: geetest_validate,
+        geetest_seccode: geetest_seccode})
+}
+
+export async function signup(username, password, phone_number, sms_token){
+    const data = {
+        username, password, phone_number, sms_token
+    };
+    return await postRequests('/auth/signup', data)
 }
 
 async function command(){

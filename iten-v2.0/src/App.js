@@ -12,11 +12,11 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 //外部函数变量类型
 import axios from 'axios'
-import {getCookie, setCookie} from './Functions/Cookies'
+import {getAccessToken, setAccessToken} from './Functions/Cookies'
 import * as config from'./Configs/Config'
 import * as fetch from './Functions/Fetch'
 //自定义组件
-import SigininDialog from "./Components/SigninDialog";
+import SigininCard from "./Components/SigninCard";
 import UserInfoBoard from "./Components/UserInfoBoard";
 import VideoCard from "./Components/VideoCard";
 import DeployCard from "./Components/DeployCard";
@@ -47,7 +47,7 @@ class App extends Component {
       axios.defaults.baseURL = config.baseUrl;
 
       //读取Cookie
-      let accessToken = getCookie('Access-Token');
+      let accessToken = getAccessToken();
       if(accessToken){
           axios.defaults.headers.common['Access-Token'] = accessToken;
           //TODO:发起获取用户信息的请求并写入state
@@ -57,13 +57,13 @@ class App extends Component {
 
   handleToken = (token) => {
       axios.defaults.headers.common['Access-Token'] = token;
-      setCookie('Access-Token',token);
+      setAccessToken(token);
       this.getUserInfo();
   };
 
   handleLogout = ()=>{
       clearInterval(this.refresh)
-      setCookie('Access-Token','');
+      setAccessToken('');
       this.setState({hasUserInfo:false,
           userInfo:{
               username:'',
@@ -122,10 +122,11 @@ class App extends Component {
                 />
 
                 <div className="app-content">
-                <SigininDialog
-                    open = {!this.state.hasUserInfo}
-                    handleToken = {this.handleToken}
-                />
+                {!this.state.hasUserInfo?
+                    <SigininCard
+                        handleToken = {this.handleToken}
+                    />: <div></div>}
+
                 {this.state.hasUserInfo?
                 <UserInfoBoard
                     userInfo={this.state.userInfo}
